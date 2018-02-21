@@ -18,6 +18,7 @@ Code accompanying [Divide and Conquer Networks](https://arxiv.org/pdf/1611.02401
 # Reproduce Experiments
 ## Prerequisites
 
+- Python 3.6.1 + some traditional libraries
 - Computer with Linux or OSX
 - [PyTorch](http://pytorch.org)
 - For training, an NVIDIA GPU is needed. CPU not supported.
