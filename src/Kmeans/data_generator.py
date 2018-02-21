@@ -98,7 +98,7 @@ class Generator():
 
     def load_dataset(self):
         # load train dataset
-        filename = 'KMEANS{}_clusters{}_dim{}_train.np'.format(self.N, self.clusters, self.dim)
+        filename = 'KMEANS_GM{}_clusters{}_dim{}_train.np'.format(self.N, self.clusters, self.dim)
         path = os.path.join(self.path_dataset, filename)
         if os.path.exists(path):
             print('Reading training dataset at {}'.format(path))
@@ -109,7 +109,7 @@ class Generator():
             print('Saving training datatset at {}'.format(path))
             np.save(open(path, 'wb'), self.data_train)
         # load test dataset
-        filename = 'KMEANS{}_clusters{}_dim{}_test.np'.format(self.N, self.clusters, self.dim)
+        filename = 'KMEANS_GM{}_clusters{}_dim{}_test.np'.format(self.N, self.clusters, self.dim)
         path = os.path.join(self.path_dataset, filename)
         if os.path.exists(path):
             print('Reading testing dataset at {}'.format(path))

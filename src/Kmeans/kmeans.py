@@ -31,6 +31,31 @@ parser.add_argument('--test', action='store_true')
 parser.add_argument('--save_file', nargs='?', const=1, type=str, default='')
 parser.add_argument('--load_file', nargs='?', const=1, type=str, default='')
 parser.add_argument('--output_file', nargs='?', const=1, type=str, default='')
+parser.add_argument('--dataset', nargs='?', const=1, type=str, default='GM')
+
+parser.add_argument('--dim', nargs='?', const=1, type=int, default=27)
+parser.add_argument('--num_examples_train', nargs='?', const=1, type=int, default=10000)
+parser.add_argument('--num_examples_test', nargs='?', const=1, type=int, default=1000)
+parser.add_argument('--N', nargs='?', const=1, type=int, default=200)
+parser.add_argument('--K', nargs='?', const=1, type=int, default=2)
+parser.add_argument('--clusters', nargs='?', const=1, type=int, default=4)
+parser.add_argument('--clip_grad_norm', nargs='?', const=1, type=float, default=40.0)
+parser.add_argument('--batch_size', nargs='?', const=1, type=int, default=32)
+parser.add_argument('--sigma2', nargs='?', const=1, type=float, default=1.)
+parser.add_argument('--reg_factor', nargs='?', const=1, type=int, default=0.0)
+parser.add_argument('--k_step', nargs='?', const=1, type=int, default=0)
+parser.add_argument('--n_samples', nargs='?', const=1, type=int, default=10)
+parser.add_argument('--last', action='store_false')
+parser.add_argument('--baseline', action='store_true')
+
+###############################################################################
+#                             GNN Arguments                                   #
+###############################################################################
+
+parser.add_argument('--num_features', nargs='?', const=1, type=int, default=32)
+parser.add_argument('--num_layers', nargs='?', const=1, type=int, default=20)
+parser.add_argument('--normalize', action='store_true')
+
 args = parser.parse_args()
 
 args.save_file = '/home/anowak/DCN-for-KMEANS/model/exp1'
@@ -387,26 +412,30 @@ def recursive_Lloyds(input, K=2):
     return Cost, Labels
 
 if __name__ == '__main__':
-    dim = 27
-    num_examples_train = 10000
-    num_examples_test = 1000
-    N = 500
-    clusters = 4
-    clip_grad_norm = 40.0
-    batch_size = 32
-    num_features = 32
-    num_layers = 20
-    sigma2 = 1
-    reg_factor = 0.00
-    K = 2
-    k_step = 0000
-    n_samples = 10
-    normalize = False
-    last = True
-    baseline = False
     
-    # gen = Generator('/data/anowak/dataset/', num_examples_train, num_examples_test, N, clusters, dim)
-    gen = GeneratorCIFAR('/data/anowak/dataset/', num_examples_train, num_examples_test, N, clusters, dim)
+    dim = args.dim
+    num_examples_train = args.num_examples_train
+    num_examples_test = args.num_examples_test
+    N = args.N
+    clusters = args.clusters
+    clip_grad_norm = args.clip_grad_norm
+    batch_size = args.batch_size
+    num_features = args.num_features
+    num_layers = args.num_layers
+    sigma2 = args.sigma2
+    reg_factor = args.reg_factor
+    K = args.K
+    k_step = args.k_step
+    n_samples = args.n_samples
+    normalize = args.normalize
+    last = args.last
+    baseline = args.baseline
+    
+    if args.dataset == 'GM':
+        gen = Generator('/data/anowak/dataset/', num_examples_train, num_examples_test, N, clusters, dim)
+    elif args.dataset == "CIFAR":
+        gen = GeneratorCIFAR('/data/anowak/dataset/', num_examples_train, num_examples_test, N, clusters, dim)
+        dim = 27
     gen.load_dataset()
     num_iterations = 100000
     
