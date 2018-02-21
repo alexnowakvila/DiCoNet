@@ -1,4 +1,4 @@
-
+src/Kmeans/plots/
 *.npy
 
 # Byte-compiled / optimized / DLL files
