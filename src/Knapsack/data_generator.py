@@ -36,8 +36,9 @@ else:
     torch.manual_seed(0)
 
 class Generator():
-    def __init__(self, path_dataset, num_examples_train, num_examples_test, N, C_min, C_max, test=False):
+    def __init__(self, path_dataset, solver_path, num_examples_train, num_examples_test, N, C_min, C_max, test=False):
         self.path_dataset = path_dataset
+        self.solver_path = solver_path
         self.num_examples_train = num_examples_train
         self.num_examples_test = num_examples_test
         self.data_train = []
@@ -56,7 +57,7 @@ class Generator():
         def np2string(A):
             return ' '.join(A.astype(str))
         problem_input = str(self.N) + ' ' + str(C) + ' ' + np2string(W) + ' ' + np2string(V) + '\n'
-        p = run(['./solver'], stdout=PIPE, input=problem_input, encoding='ascii')
+        p = run([self.solver_path], stdout=PIPE, input=problem_input, encoding='ascii')
         output = list(map(int, p.stdout.split()))
         OptW = output[-1]
         OptV = output[-2]

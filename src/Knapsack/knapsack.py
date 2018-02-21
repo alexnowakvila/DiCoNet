@@ -27,7 +27,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--test', action='store_true')
 parser.add_argument('--save_file_path', nargs='?', const=1, type=str, default='')
 parser.add_argument('--load_file_path', nargs='?', const=1, type=str, default='')
-parser.add_argument('--dataset_path', nargs='?', const=1, type=str, default='dataset/')
+parser.add_argument('--dataset_path', nargs='?', const=1, type=str, default='')
+parser.add_argument('--solver_path', nargs='?', const=1, type=str, default='')
 parser.add_argument('--output_file_path', nargs='?', const=1, type=str, default='')
 parser.add_argument('--splits', nargs='?', const=1, type=int, default=3)
 parser.add_argument('--N', nargs='?', const=1, type=int, default=50)
@@ -247,7 +248,7 @@ if __name__ == '__main__':
     
     test = args.test
     
-    gen = Generator(args.dataset_path, num_examples_train, num_examples_test, N, C_min, C_max, test=test)
+    gen = Generator(args.dataset_path, args.solver_path, num_examples_train, num_examples_test, N, C_min, C_max, test=test)
     gen.load_dataset()
     num_iterations = 100000
     
