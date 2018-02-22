@@ -45,3 +45,14 @@ python code/K-means/main.py --path [experiment folder] --path_dataset [dataset f
 ```
 
 ## Knapsack
+
+Compile the knapsack solver for the creation of the dataset.
+```
+g++ src/Knapsack/solver.cc -O2 -o src/Knapsack/solver
+```
+Train the model. Check the parse arguments section at the top of the knapsack.py file to change the default arguments.
+```
+python src/Knapsack/knapsack.py --dataset_path [dataset folder] --solver_path src/Knapsack/solver --logs_path [experiment folder]
+```
+
+
