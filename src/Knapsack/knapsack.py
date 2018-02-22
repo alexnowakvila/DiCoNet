@@ -29,7 +29,7 @@ parser.add_argument('--save_file_path', nargs='?', const=1, type=str, default=''
 parser.add_argument('--load_file_path', nargs='?', const=1, type=str, default='')
 parser.add_argument('--dataset_path', nargs='?', const=1, type=str, default='')
 parser.add_argument('--solver_path', nargs='?', const=1, type=str, default='')
-parser.add_argument('--output_file_path', nargs='?', const=1, type=str, default='')
+parser.add_argument('--logs_path', nargs='?', const=1, type=str, default='')
 parser.add_argument('--splits', nargs='?', const=1, type=int, default=3)
 parser.add_argument('--N', nargs='?', const=1, type=int, default=50)
 args = parser.parse_args()
@@ -50,11 +50,11 @@ template_train3 = '{:<10} {:<10} {:<10} {:<10.5f} {:<10.5f} {:<10.5f} {:<10} \n'
 info_train = ['TRAIN', 'iteration', 'loss', 'weight', 'opt', 'trivial', 'elapsed']
 
 
-if args.output_file_path != '':
+if args.logs_path != '':
     class Logger2(object):
         def __init__(self, path):
             self.terminal = sys.stdout
-            self.log = open(path, 'a')
+            self.log = open(path, 'w')
 
         def write(self, message):
             self.terminal.write(message)
@@ -66,7 +66,7 @@ if args.output_file_path != '':
             #you might want to specify some extra behavior here.
             pass    
 
-    sys.stdout = Logger2(args.output_file_path)
+    sys.stdout = Logger2(os.path.join(args.logs_path, 'output.txt'))
 
 class Logger():
     dicc = {}
@@ -259,7 +259,7 @@ if __name__ == '__main__':
     
     log = Logger()
     log2 = Logger()
-    path_train_plot = 'training.png'
+    path_train_plot = os.path.join(args.logs_path, 'training.png')
     
     if test:
         num_iterations = num_examples_test // batch_size
@@ -317,7 +317,8 @@ if __name__ == '__main__':
                     log2.add('W',w)
                     log2.add('TW',tw)
                     log2.add('OPT',opt)
-                    plot_train_logs(path_train_plot, log2.get('W'),log2.get('TW'),log2.get('OPT'))
+                    if args.logs_path != '':
+                        plot_train_logs(path_train_plot, log2.get('W'),log2.get('TW'),log2.get('OPT'))
                 
                 log.empty_all()
                 start = time.time()
